@@ -1,5 +1,6 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize-typescript';
+import { UsersEntity } from 'src/modules/users/entities/users.entity';
 
 
 export const Mysql = [
@@ -8,7 +9,7 @@ export const Mysql = [
     imports: [ConfigModule],
     useFactory: async (configService: ConfigService) => {
       const sequelize = new Sequelize({
-        dialect: configService.get<string>('DB_TYPE') as any,
+        dialect: 'postgres',
         host: configService.get<string>('DB_HOST'),
         port: Number(configService.get('DB_PORT')),
         username: configService.get<string>('DB_USERNAME'),
@@ -16,7 +17,7 @@ export const Mysql = [
         database: configService.get<string>('DB_DATABASE'),
         logging: false,
         omitNull: true,
-        models: [],
+        models: [UsersEntity],
       });
 
       await sequelize.sync();

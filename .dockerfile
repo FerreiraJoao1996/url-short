@@ -17,8 +17,11 @@ WORKDIR /url-short
 
 COPY --from=builder /url-short/dist ./dist
 COPY --from=builder /url-short/package*.json ./
+COPY --from=builder /url-short/config ./config
+COPY --from=builder /url-short/src/database/migrations ./src/database/migrations
+COPY --from=builder /url-short/tsconfig.json ./tsconfig.json
 
-RUN npm install --omit=dev
+RUN npm install --omit=dev && npm install ts-node
 
 EXPOSE 3000
 

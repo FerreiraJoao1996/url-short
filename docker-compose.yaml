@@ -11,6 +11,7 @@ services:
       - db
     ports:
       - "3000:3000"
+    command: sh -c "until nc -z db 5432; do echo '⏳ Waiting for Postgres...'; sleep 2; done && npx sequelize-cli db:migrate --config config/config.js --migrations-path src/database/migrations --env development && npm run start:prod"
     restart: always
 
   db:
