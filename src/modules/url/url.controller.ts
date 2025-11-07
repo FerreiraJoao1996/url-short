@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Controller,
   Delete,
   ForbiddenException,
@@ -19,11 +20,16 @@ import { CreateUrlDTO } from './dto/create-url';
 import { OptionalAuthenticated } from '../auth/decorators/optional-authenticated';
 import { hasHttpPrefix } from '../../utils/has-http-prefix';
 import { formatShortUrl } from '../../utils/format-short-url';
-import { UrlEntity } from './entities/url.entity';
 import { Logged } from '../auth/decorators/logged';
 import { UpdateUrlDTO } from './dto/update-url';
 import { CONSTANTS } from '../../utils/constants';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateUrlSwagger } from './swagger/create';
+import { UrlDTO } from './dto/created-url';
+import { DeleteUrlSwagger } from './swagger/delete';
+import { UserUrlsSwagger } from './swagger/list';
 
+@ApiTags('url')
 @Controller('url')
 export class UrlController {
   constructor(
@@ -32,8 +38,10 @@ export class UrlController {
 
   @Post('/')
   @OptionalAuthenticated()
+  @ApiOperation({ summary: 'Criação de url encurtada' })
+  @CreateUrlSwagger()
   async create(@Body() body: CreateUrlDTO, @User() user: UsersEntity | undefined, @Req() request: Request) {
-    let url: UrlEntity;
+    let url: UrlDTO;
     const validUrl = hasHttpPrefix(body.url)
 
     if (!validUrl) {
@@ -43,8 +51,13 @@ export class UrlController {
     if (body.shortUrl) {
       const hasReservedName = [CONSTANTS.MODULES.AUTH, CONSTANTS.MODULES.URL, CONSTANTS.MODULES.USERS].includes(body.shortUrl)
       const hasShortUrl = await this.urlService.findByShortUrl(body.shortUrl)
-      if (!this.urlService.validShortUrl(body.shortUrl) || hasReservedName || hasShortUrl) {
-        throw new BadRequestException("A url encurtada não é valida ou já existe.");
+
+      if (hasShortUrl) {
+        throw new ConflictException("A url personalizada já existe.");
+      }
+
+      if (!this.urlService.validShortUrl(body.shortUrl) || hasReservedName) {
+        throw new BadRequestException("A url personalizada não é valida.");
       }
 
       const shortUrl = formatShortUrl(body.shortUrl);
@@ -69,11 +82,12 @@ export class UrlController {
 
   @Logged()
   @Put('/')
+  @ApiOperation({ summary: 'Atualização de url encurtada' })
   async update(@Body() body: UpdateUrlDTO, @User() user: UsersEntity) {
     const url = await this.urlService.findByShortUrl(body.shortUrl);
 
     if (!url) {
-      throw new NotFoundException("A url encurtada informada não foi encontrada.");
+      throw new NotFoundException("A url personalizada informada não foi encontrada.");
     }
 
     if (url?.user_id !== user.id) {
@@ -88,10 +102,9 @@ export class UrlController {
 
     if (body.newShortUrl !== undefined) {
       const hasReservedName = [CONSTANTS.MODULES.AUTH, CONSTANTS.MODULES.URL, CONSTANTS.MODULES.USERS].includes(body.shortUrl)
-      const hasShortUrl = await this.urlService.findByShortUrl(body.shortUrl)
 
-      if (!this.urlService.validShortUrl(body.shortUrl) || hasReservedName || hasShortUrl) {
-        throw new BadRequestException("A url encurtada não é valida.");
+      if (!this.urlService.validShortUrl(body.shortUrl) || hasReservedName) {
+        throw new BadRequestException("A url personalizada não é valida.");
       }
 
       url.short_url = formatShortUrl(body.newShortUrl);
@@ -108,19 +121,25 @@ export class UrlController {
       url.original_url = body.url;
     }
 
-    await this.urlService.update(body.shortUrl, url);
+    const newUrl = await this.urlService.update(body.shortUrl, url);
 
-    return { url };
+    return {
+      url: newUrl
+    }
   }
 
   @Logged()
   @Get('list')
+  @UserUrlsSwagger()
+  @ApiOperation({ summary: 'Listagem de urls do usuário logado' })
   async get(@User() user: UsersEntity) {
     return await this.urlService.get(Number(user.id));
   }
 
   @Logged()
   @Delete('/:shortUrl')
+  @ApiOperation({ summary: 'Deleção de url encurtada' })
+  @DeleteUrlSwagger()
   async delete(@Param("shortUrl") shortUrl: string, @User() user: UsersEntity) {
     return await this.urlService.delete(
       shortUrl,

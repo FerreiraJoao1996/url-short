@@ -12,8 +12,3 @@ export class UserDTO {
   @IsString()
   confirmPassword?: string;
 }
-
-export class UpdateUserDTO extends UserDTO {
-  @IsNumber()
-  id: number;
-}
