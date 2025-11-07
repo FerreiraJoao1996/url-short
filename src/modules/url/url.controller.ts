@@ -102,8 +102,15 @@ export class UrlController {
 
     if (body.newShortUrl !== undefined) {
       const hasReservedName = [CONSTANTS.MODULES.AUTH, CONSTANTS.MODULES.URL, CONSTANTS.MODULES.USERS].includes(body.shortUrl)
+      const hasNewShortUrl = await this.urlService.findByShortUrl(body.newShortUrl);
 
-      if (!this.urlService.validShortUrl(body.shortUrl) || hasReservedName) {
+      if (hasNewShortUrl) {
+        throw new ConflictException(
+          "A url informada não está disponível."
+        );
+      }
+
+      if (!this.urlService.validShortUrl(body.shortUrl) || hasReservedName || hasNewShortUrl) {
         throw new BadRequestException("A url personalizada não é valida.");
       }
 
