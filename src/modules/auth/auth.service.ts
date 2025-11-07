@@ -20,7 +20,7 @@ export class AuthService {
       throw new UnauthorizedException('A senha informada não é valida!');
     }
 
-    const payload: AccessToken = { sub: user.id, email: user.email };
+    const payload: AccessToken = { id: user.id, email: user.email };
 
     return {
       access_token: await this.jwtService.signAsync(payload),
