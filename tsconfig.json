@@ -27,7 +27,12 @@
     ],
     "types": [
       "node",
-    ]
+    ],
+    "paths": {
+      "src/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "src/**/*"
