@@ -21,7 +21,7 @@ import { BullModule } from '@nestjs/bullmq';
     BullModule.forRoot({
       connection: {
         host: process.env.REDIS_HOST,
-        port: parseInt(process.env.REDIS_PORT || '6379'),
+        port: Number(process.env.REDIS_PORT) || 6379,
       },
     }),
     UsersModule,

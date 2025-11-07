@@ -1,4 +1,4 @@
-import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersEntity } from './entities/users.entity';
 import { UserDTO } from './dto/user';
 import { Hash } from '../../utils/hash';

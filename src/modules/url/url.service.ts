@@ -1,4 +1,4 @@
-import { ForbiddenException, HttpException, HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UrlEntity } from './entities/url.entity';
 import { Sequelize } from 'sequelize';
 import { UrlDTO } from './dto/created-url';
