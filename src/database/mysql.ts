@@ -1,6 +1,7 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize-typescript';
 import { UsersEntity } from 'src/modules/users/entities/users.entity';
+import { UrlEntity } from '../modules/url/entities/url.entity';
 
 
 export const Mysql = [
@@ -17,7 +18,7 @@ export const Mysql = [
         database: configService.get<string>('DB_DATABASE'),
         logging: false,
         omitNull: true,
-        models: [UsersEntity],
+        models: [UsersEntity, UrlEntity],
       });
 
       await sequelize.sync();
