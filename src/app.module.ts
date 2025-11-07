@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Mysql } from './database/mysql';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { Mysql } from './database/mysql';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
     }),
+    UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [...Mysql],
