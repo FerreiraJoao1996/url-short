@@ -18,7 +18,7 @@ export class UrlEntity extends Model<UrlEntity, UrlAttributes> {
     type: DataType.STRING,
     allowNull: true,
   })
-  user_id: string;
+  user_id: number;
 
   @Column({
     type: DataType.STRING,
