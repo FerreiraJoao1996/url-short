@@ -14,7 +14,7 @@
 
 1. Faça o clone do projeto e inicie
     ```
-    https://github.com/FerreiraJoao1996/url-short.git
+    git clone https://github.com/FerreiraJoao1996/url-short.git
     cd url-short
     ```
 
