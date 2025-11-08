@@ -9,8 +9,12 @@ export class UrlService {
 
   async create(originaUrl: string, userId: number, alias: string = ''): Promise<UrlDTO> {
     let shortUrl: string = alias;
-    if (!alias.trim()) {
-      shortUrl = this.generateShortCode();
+
+    if (!shortUrl) {
+      shortUrl = await this.generateUniqueShortCode();
+    } else {
+      const exists = await this.findByShortUrl(shortUrl);
+      if (exists) throw new ForbiddenException('Este alias já está em uso!');
     }
 
     const url = await UrlEntity.create({
@@ -43,6 +47,18 @@ export class UrlService {
     }
 
     return result;
+  }
+
+  private async generateUniqueShortCode(length = 6): Promise<string> {
+    let shortCode: string;
+    let exists: UrlEntity | null;
+
+    do {
+      shortCode = this.generateShortCode(length);
+      exists = await this.findByShortUrl(shortCode);
+    } while (exists);
+
+    return shortCode;
   }
 
   public async findByShortUrl(shortUrl: string): Promise<UrlEntity | null> {
