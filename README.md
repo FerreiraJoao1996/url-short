@@ -12,7 +12,7 @@
 
 ## Instalando o NVM para uso do node
 
-#### É aconselhável o uso de node atráves do NVM no terminal linux, assim instale seguindo os passos:
+#### É aconselhável o uso de node atráves do NVM no terminal linux, assim instale seguindo os passos abaixo após o build no docker:
 
     ```
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
