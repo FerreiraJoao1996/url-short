@@ -98,9 +98,17 @@ Este passo é necessário somente se você for rodar o projeto fora do Docker.
     ```
 
 2. Execute os testes
-    ```
-    yarn test:e2e
-    ```
+
+   ##### Caso esteja no docker: 
+       ```
+       yarn install
+        yarn test:e2e
+        ```
+    
+    ##### Caso esteja local:
+        ```
+        yarn test:e2e
+        ```
 
 ## Documentação
 - A documentação no swagger está disponível em http://localhost:3000/api/docs/
