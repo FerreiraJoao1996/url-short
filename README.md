@@ -10,6 +10,19 @@
 - Sequelize
 - BullMQ
 
+## Instalando o NVM para uso do node
+
+#### É aconselhável o uso de node atráves do NVM no terminal linux, assim instale seguindo os passos:
+
+    ```
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    source ~/.bashrc 
+    nvm -v
+    nvm install --lts
+    nvm use --lts
+    node -v
+    ```
+
 ## Passo a Passo para Executar o Projeto no Docker
 
 1. Faça o clone do projeto e inicie
