@@ -71,8 +71,6 @@ Este passo é necessário somente se você for rodar o projeto fora do Docker.
    yarn start:dev
    ```
 
-- Em ambos os casos, o projeto ficará disponivel em http://localhost:3000
-
 5. Executando as migrations
 
     ##### Altere o .env para: 
@@ -90,6 +88,7 @@ Este passo é necessário somente se você for rodar o projeto fora do Docker.
     ```
     yarn start:dev
     ```
+### Em ambos os casos, o projeto ficará disponivel em http://localhost:3000
 
 ## Executando os testes
 
