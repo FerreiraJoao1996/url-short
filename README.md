@@ -12,7 +12,8 @@
 
 ## Instalando o NVM para uso do node
 
-#### É aconselhável o uso de node atráves do NVM no terminal linux, assim instale seguindo os passos abaixo após o build no docker:
+#### O uso do NVM (Node Version Manager) facilita o controle da versão do Node no ambiente local.
+Este passo é necessário somente se você for rodar o projeto fora do Docker.
 
     ```
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
@@ -41,13 +42,6 @@
 3. Criando os containers (as migrations serão executadas durante a criação)
     ```
     docker compose up -d --build
-    ```
-
-4. Por fim, execute o comando para iniciar o projeto:
-
-   ```
-   yarn start:dev
-   ```
 
 ## Passo a Passo para Executar o Projeto Local
 
@@ -74,9 +68,28 @@
    ```
    npm i -g yarn
    yarn install
-   yarn migrate
    yarn start:dev
    ```
+
+- Em ambos os casos, o projeto ficará disponivel em http://localhost:3000
+
+5. Executando as migrations
+
+### Altere o .env para: 
+    ```
+    DB_HOST=localhost
+    REDIS_HOST=localhost 
+    ```
+
+### Execute o comando:
+    ```
+    yarn migrate
+    ```
+
+5. Inicie o projeto
+    ```
+    yarn start:dev
+    ```
 
 ## Executando os testes
 
