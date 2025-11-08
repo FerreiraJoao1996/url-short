@@ -1,7 +1,5 @@
 
 
-# Instruções para Execução do Projeto
-
 ## Tecnologias Utilizadas
 
 - Node 24.11
@@ -22,9 +20,9 @@
 
 2. Configure a `.env` do projeto para conexão com o banco de dados Postgres:
 
-   ```env
+   ```
    cp .env.example .env
-   cp .env.example.postgres .env
+   cp .env.postgres.example .env.postgres
    ```
 
 3. Criando os containers (as migrations serão executadas durante a criação)
@@ -50,15 +48,15 @@
 
    ```env
    cp .env.example .env
-   cp .env.example.postgres .env
+   cp .env.postgres.example .env.postgres
    ```
 
-3. Criando os containers (as migrations serão executadas durante a criação)
+3. Criando os containers
     ```
     docker compose up -d db redis
     ```
 
-4. Execute os comandos para instalar as dependências:
+4. Execute os comandos para instalar as dependências e migrations:
 
    ```
    yarn i -g yarn
@@ -70,8 +68,10 @@
 ## Executando os testes
 
 1. Altere e .env para:
+    ```
     DB_HOST=localhost
     REDIS_HOST=localhost 
+    ```
 
 2. Execute os testes
     ```
@@ -101,7 +101,7 @@ Consiste em aumentar os recursos da máquina (**CPU, RAM, disco**).
 
 ---
 
-### 🧩 Escalabilidade Horizontal
+### Escalabilidade Horizontal
 
 Consiste em adicionar **novas instâncias do serviço** e balancear o tráfego entre elas.
 
