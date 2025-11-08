@@ -73,15 +73,15 @@ Este passo é necessário somente se você for rodar o projeto fora do Docker.
 5. Executando as migrations
 
     ##### Altere o .env para: 
-        ```
-        DB_HOST=localhost
-        REDIS_HOST=localhost 
-        ```
+    ```
+    DB_HOST=localhost
+    REDIS_HOST=localhost 
+    ```
     
     ##### Execute o comando:
-        ```
-        yarn migrate
-        ```
+    ```
+    yarn migrate
+    ```
 
 5. Inicie o projeto
     ```
