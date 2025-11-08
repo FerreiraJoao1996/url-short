@@ -63,12 +63,11 @@ Este passo é necessário somente se você for rodar o projeto fora do Docker.
     docker compose up -d db redis
     ```
 
-4. Execute os comandos para instalar as dependências e migrations:
+4. Execute os comandos para instalar as dependências:
 
    ```
    npm i -g yarn
    yarn install
-   yarn start:dev
    ```
 
 5. Executando as migrations
