@@ -59,7 +59,7 @@
 4. Execute os comandos para instalar as dependências e migrations:
 
    ```
-   yarn i -g yarn
+   npm i -g yarn
    yarn install
    yarn migrate
    yarn start:dev
