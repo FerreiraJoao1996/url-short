@@ -2,10 +2,14 @@ import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nest
 import { UrlEntity } from './entities/url.entity';
 import { Sequelize } from 'sequelize';
 import { UrlDTO } from './dto/created-url';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class UrlService {
-  constructor(@Inject('urlshort') private readonly sequelize: Sequelize) { }
+  constructor(
+    @Inject('urlshort') private readonly sequelize: Sequelize,
+    private readonly redisService: RedisService,
+  ) { }
 
   async create(originaUrl: string, userId: number, alias: string = ''): Promise<UrlDTO> {
     let shortUrl: string = alias;
@@ -65,6 +69,7 @@ export class UrlService {
     return await UrlEntity.findOne({
       where: { short_url: shortUrl },
       raw: true,
+      paranoid: false
     });
   }
 
@@ -81,6 +86,8 @@ export class UrlService {
 
     if (!newUrl) return []
 
+    await this.redisService.del(`url:${oldShortUrl}`);
+
     return {
       id: newUrl.id,
       original_url: newUrl.original_url,
@@ -90,7 +97,6 @@ export class UrlService {
     }
 
   }
-
 
   async get(userId: number) {
     return await UrlEntity.findAll({
@@ -107,6 +113,7 @@ export class UrlService {
       where: {
         short_url: url,
       },
+      raw: true
     });
 
     if (!shortUrl) {
@@ -119,15 +126,21 @@ export class UrlService {
       throw new ForbiddenException("Você não possui permissão para deletar esta url.")
     }
 
-    const response = await UrlEntity.update(
+    const [affectedCount] = await UrlEntity.update(
+      { deletedAt: new Date() },
       {
-        deletedAt: new Date(),
+        where: { short_url: url },
+        returning: true,
+        paranoid: false,
       },
-      { where: { short_url: url } },
-
     );
 
-    return response[0] === 1;
+    if (affectedCount === 0) {
+      return false
+    }
+
+    await this.redisService.del(`url:${url}`);
+    return true;
   }
 
   async incrementClickCount(shortUrl: string): Promise<void> {

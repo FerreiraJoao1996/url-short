@@ -10,6 +10,7 @@ import { AuthModule } from '../auth/auth.module';
 import { redisConfig } from '../../queues/bull.config';
 import { Mysql } from '../../database/mysql';
 import { ConfigModule } from '@nestjs/config';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ConfigModule } from '@nestjs/config';
     redisConfig,
     ConfigModule,
     BullModule.registerQueue({ name: 'clicks' }),
+    RedisModule
   ],
   controllers: [UrlController, UrlRedirectController],
   providers: [UrlService, ...UrlProvider, ...UsersProvider, UrlProcessor, ...Mysql],

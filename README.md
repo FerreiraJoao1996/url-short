@@ -115,6 +115,11 @@ Este passo é necessário somente se você for rodar o projeto fora do Docker.
 - Validação dos campos com class-validator
 - Docker compose configurado para provisionar todo o ambiente automaticamente
 - Controle de contagem de acessos através de um worker com BullMQ
+- Adicionado cache via redis de 10 minutos para cada url acessada
+
+## Arquitetura
+
+![Arquitetura do Projeto](./public/fluxograma%20url-short.png)
 
 ## Como o sistema poderia escalar em produção
 
