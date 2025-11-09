@@ -90,9 +90,7 @@ Este passo é necessário somente se você for rodar o projeto fora do Docker.
 ## Executando os testes
 
 ### Caso esteja rodando o projeto no docker, rode o comando:
-    ```
     docker compose run --rm app yarn test:e2e
-    ```
 
 ### Caso esteja rodando o projeto localmente:
 
