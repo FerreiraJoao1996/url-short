@@ -21,7 +21,6 @@
     "start:worker": "node dist/main.worker.js"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.1.0",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
