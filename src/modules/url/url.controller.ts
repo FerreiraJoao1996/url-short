@@ -90,7 +90,7 @@ export class UrlController {
       throw new NotFoundException("A url personalizada informada não foi encontrada.");
     }
 
-    if (url?.user_id !== user.id) {
+    if (Number(url?.user_id) !== Number(user.id)) {
       throw new ForbiddenException(
         "Você não possui permissão para editar esta url!"
       );

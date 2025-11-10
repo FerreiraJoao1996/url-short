@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UrlEntity } from './entities/url.entity';
 import { Sequelize } from 'sequelize';
 import { UrlDTO } from './dto/created-url';
@@ -69,7 +69,7 @@ export class UrlService {
     return await UrlEntity.findOne({
       where: { short_url: shortUrl },
       raw: true,
-      paranoid: false
+      paranoid: true
     });
   }
 
@@ -122,7 +122,7 @@ export class UrlService {
       );
     }
 
-    if (shortUrl.user_id !== userId) {
+    if (Number(shortUrl.user_id) !== Number(userId)) {
       throw new ForbiddenException("Você não possui permissão para deletar esta url.")
     }
 
