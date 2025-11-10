@@ -7,6 +7,7 @@
 - Postgres
 - Sequelize
 - BullMQ
+- Redis
 
 ## Instalando o NVM para uso do node
 
